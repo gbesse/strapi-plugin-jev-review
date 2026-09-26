@@ -1,0 +1,16 @@
+{
+  "name": "strapi-plugin-jev-review",
+  "version": "0.1.0",
+  "description": "Confidence-aware editorial review for Strapi 5 using TypeSafe Jev",
+  "license": "MIT",
+  "repository": "https://github.com/gbesse/strapi-plugin-jev-review",
+  "engines": { "node": ">=20" },
+  "peerDependencies": { "@strapi/strapi": "^5.0.0" },
+  "strapi": { "name": "jev-review", "displayName": "Jev Review", "kind": "plugin" },
+  "exports": {
+    "./strapi-server": { "source": "./server/index.js", "default": "./server/index.js" },
+    "./package.json": "./package.json"
+  },
+  "files": ["server", "README.md", "README.en.md", "README.es.md", "LICENSE"],
+  "scripts": { "test": "node --test" }
+}
