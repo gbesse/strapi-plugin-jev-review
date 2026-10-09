@@ -50,3 +50,7 @@ const decision = await strapi
 Ejecute `npm test` para las pruebas locales. Licencia MIT. Proyecto comunitario independiente, sin afiliación con TypeSafe AI ni Strapi.
 
 [Français](README.md) · [English](README.en.md)
+
+## Comprobación de adopción
+
+[Pruebe un caso concreto y compruebe sus límites](examples/adoption-check.md).
