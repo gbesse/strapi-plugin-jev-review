@@ -50,3 +50,7 @@ const decision = await strapi
 Exécutez `npm test` pour les tests locaux. Licence MIT. Projet communautaire indépendant, sans affiliation à TypeSafe AI ou Strapi.
 
 [English](README.en.md) · [Español](README.es.md)
+
+## Contrôle d’adoption · Adoption check · Comprobación de adopción
+
+[Français : essayer un cas concret](examples/adoption-check.md) · [English: try a concrete case](examples/adoption-check.md) · [Español: pruebe un caso concreto](examples/adoption-check.md).
