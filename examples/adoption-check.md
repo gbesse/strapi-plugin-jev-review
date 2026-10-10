@@ -40,3 +40,15 @@ FR : adaptez une copie de la fixture locale à cette situation, puis vérifiez l
 EN: adapt a copy of the local fixture to this situation, then check the behavior described above. Values are illustrative, not measured Jev output.
 
 ES: adapte una copia de la fixture local a esta situación y compruebe el comportamiento descrito arriba. Los valores son ilustrativos, no resultados Jev medidos.
+
+## Second cas · Second case · Segundo caso
+
+```text
+confidence=0.79; minConfidence=0.80; guardPublishing=true
+```
+
+**FR :** Un brouillon juste sous le seuil configuré doit rester soumis à la garde de publication. Vérifiez le résultat dans le type de contenu concerné.
+
+**EN:** A draft just below the configured threshold should remain subject to the publishing guard. Check the outcome on the relevant content type.
+
+**ES:** Un borrador justo por debajo del umbral configurado debe seguir sujeto a la protección de publicación. Compruebe el resultado en el tipo de contenido pertinente.
