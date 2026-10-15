@@ -54,3 +54,7 @@ Exécutez `npm test` pour les tests locaux. Licence MIT. Projet communautaire in
 ## Contrôle d’adoption · Adoption check · Comprobación de adopción
 
 [Français : essayer un cas concret](examples/adoption-check.md) · [English: try a concrete case](examples/adoption-check.md) · [Español: pruebe un caso concreto](examples/adoption-check.md).
+
+## Revue complète et actualisée
+
+Un brouillon dépassant `maxChars` échoue avant envoi, au lieu d’approuver un préfixe tronqué. Le garde de publication lit la locale demandée, puis relit le texte après décision et bloque une modification. Le service `evaluate` accepte aussi une locale optionnelle. Les redirections fournisseur sont refusées. La relecture ne constitue pas un verrou transactionnel : un changement après vérification reste possible. Tests simulés du middleware Strapi 5, sans instance ou compte réel.

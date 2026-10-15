@@ -54,3 +54,7 @@ Ejecute `npm test` para las pruebas locales. Licencia MIT. Proyecto comunitario 
 ## Comprobación de adopción
 
 [Pruebe un caso concreto y compruebe sus límites](examples/adoption-check.md).
+
+## Revisión completa y actualizada
+
+Borradores sobre `maxChars` fallan antes de enviar, no aprueban un prefijo truncado. La guarda lee el idioma solicitado, relee texto tras decidir y bloquea cambios. Servicio `evaluate` acepta idioma opcional. Rechaza redirecciones del proveedor. Releer no bloquea transacciones: cambios posteriores siguen posibles. Pruebas simuladas de middleware Strapi 5, sin instancia/cuenta real.

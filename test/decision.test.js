@@ -49,3 +49,13 @@ test('publish guard blocks uncertain content before the publish action', async (
     assert.equal(published, false);
   } finally { global.fetch = original; }
 });
+
+test('oversized drafts fail before transport in each locale instead of approving a prefix',async()=>{
+ for(const locale of ['fr','en','es']){let calls=0;await assert.rejects(decide('x'.repeat(options.maxChars+1),{...options,locale},async()=>{calls++;}),error=>!!error.message);assert.equal(calls,0);}
+});
+test('changed locale-specific draft blocks publication after a confident result',async()=>{
+ let middleware,reads=0,published=false;const seen=[];
+ const strapi={config:{get:()=>({...options,guardPublishing:true,contentTypes:{article:{field:'body'}}})},documents:Object.assign(()=>({findOne:async params=>{seen.push(params);reads++;return {body:reads===1?'original':'changed'};}}),{use:fn=>middleware=fn})};
+ plugin.register({strapi});const original=global.fetch;global.fetch=async()=>({ok:true,headers:{get:()=>null},text:async()=>JSON.stringify({answers:{editorial:{type:'choice',choice:'approve',confidence:.99}}})});
+ try{await assert.rejects(middleware({uid:'article',action:'publish',params:{documentId:'id',locale:'fr'}},()=>{published=true;}),/changed/);assert.equal(published,false);assert.ok(seen.every(params=>params.locale==='fr'));}finally{global.fetch=original;}
+});

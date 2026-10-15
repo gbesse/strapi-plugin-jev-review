@@ -32,8 +32,9 @@ async function decide(text, options, transport = fetch) {
   const key = process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY;
   if (!key) throw new Error(message(locale, 'key'));
   if (typeof text !== 'string' || !text.trim()) throw new Error(message(locale, 'missing'));
+  if (text.length > options.maxChars) throw new Error(message(locale, 'oversized'));
   const url = endpointFrom(options);
-  const state = text.slice(0, options.maxChars);
+  const state = text;
   const payload = {
     model: options.model,
     state,
@@ -49,6 +50,7 @@ async function decide(text, options, transport = fetch) {
   try {
     response = await transport(url, {
       method: 'POST',
+      redirect: 'error',
       headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(options.timeoutMs),
