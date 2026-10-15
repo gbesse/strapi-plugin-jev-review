@@ -54,3 +54,7 @@ Run `npm test` for local tests. MIT licensed. Independent community project, una
 ## Adoption check
 
 [Try a concrete case and check its limits](examples/adoption-check.md).
+
+## Complete current-draft review
+
+Drafts above `maxChars` fail before dispatch instead of approving a truncated prefix. The publish guard reads the requested locale, rereads text after the decision and blocks changes. The `evaluate` service also accepts an optional locale. Provider redirects are refused. Rereading is not a transaction lock: changes after verification remain possible. Mock Strapi 5 middleware tests only; no live instance/account.

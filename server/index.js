@@ -40,22 +40,24 @@ module.exports = {
       if (!config.guardPublishing || context.action !== 'publish' || !policy) return next();
       const documentId = context.params?.documentId || context.args?.documentId;
       if (!documentId) throw new Error(message(config.locale, 'config'));
-      const draft = await strapi.documents(context.uid).findOne({ documentId, status: 'draft' });
+      const draft = await strapi.documents(context.uid).findOne({ documentId, status: 'draft', ...(context.params?.locale ? {locale: context.params.locale} : {}) });
       const text = pickText(draft, policy.field);
       const decision = await decide(text, { ...config, ...policy });
       if (decision.action !== 'approve') {
         throw new Error(message(config.locale, decision.choice === 'revise' ? 'rejected' : 'review'));
       }
+      const current = await strapi.documents(context.uid).findOne({ documentId, status: 'draft', ...(context.params?.locale ? {locale: context.params.locale} : {}) });
+      if (pickText(current, policy.field) !== text) throw new Error(message(config.locale, 'stale'));
       return next();
     });
   },
   services: {
     review: ({ strapi }) => ({
-      async evaluate(uid, documentId) {
+      async evaluate(uid, documentId, locale) {
         const config = effectiveConfig(strapi);
         const policy = config.contentTypes?.[uid];
         if (!policy || !policy.field) throw new Error(message(config.locale, 'config'));
-        const draft = await strapi.documents(uid).findOne({ documentId, status: 'draft' });
+        const draft = await strapi.documents(uid).findOne({ documentId, status: 'draft', ...(locale ? {locale} : {}) });
         return decide(pickText(draft, policy.field), { ...config, ...policy });
       },
     }),
