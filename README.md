@@ -58,3 +58,10 @@ Exécutez `npm test` pour les tests locaux. Licence MIT. Projet communautaire in
 ## Revue complète et actualisée
 
 Un brouillon dépassant `maxChars` échoue avant envoi, au lieu d’approuver un préfixe tronqué. Le garde de publication lit la locale demandée, puis relit le texte après décision et bloque une modification. Le service `evaluate` accepte aussi une locale optionnelle. Les redirections fournisseur sont refusées. La relecture ne constitue pas un verrou transactionnel : un changement après vérification reste possible. Tests simulés du middleware Strapi 5, sans instance ou compte réel.
+
+
+FR : Une réponse doit fournir exactement les probabilités `approve`, `escalate` et `revise`, finies dans [0,1], dont la somme vaut 1 à 0,001 près. Le choix doit être un maximum ; un modèle déclaré différent est refusé. Politique et critères sont figés avant transport. Un format incomplet est une indisponibilité, jamais une approbation. Ces contrôles ne calibrent pas les probabilités et ne valident pas l’hôte Strapi natif.
+
+EN: A response must provide exactly `approve`, `escalate` and `revise` probabilities, finite in [0,1] and summing to 1 within 0.001. The selected choice must be a maximum; a different declared model is rejected. Policy and criteria are snapshotted before transport. An incomplete format is unavailable, never an approval. These checks do not calibrate probabilities or validate the native Strapi host.
+
+ES: La respuesta debe proporcionar exactamente probabilidades `approve`, `escalate` y `revise`, finitas en [0,1] y cuya suma sea 1 con tolerancia 0,001. La elección debe ser máxima; se rechaza un modelo declarado diferente. Política y criterios se fijan antes del transporte. Un formato incompleto implica indisponibilidad, nunca aprobación. Estos controles no calibran probabilidades ni validan el host Strapi nativo.
