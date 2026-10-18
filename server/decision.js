@@ -29,6 +29,7 @@ function endpointFrom(options) {
 
 async function decide(text, options, transport = fetch) {
   const locale = validate(options);
+  options = { ...options, criteria: { ...options.criteria } }; // Freeze the contract used by this request.
   const key = process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY;
   if (!key) throw new Error(message(locale, 'key'));
   if (typeof text !== 'string' || !text.trim()) throw new Error(message(locale, 'missing'));
@@ -61,7 +62,15 @@ async function decide(text, options, transport = fetch) {
     const result = JSON.parse(raw);
     const answer = result.answers?.editorial;
     if (answer?.type !== 'choice' || !Object.hasOwn(options.criteria, answer.choice) ||
-        !Number.isFinite(answer.confidence) || answer.confidence < 0 || answer.confidence > 1) throw new Error();
+        !Number.isFinite(answer.confidence) || answer.confidence < 0 || answer.confidence > 1 ||
+        (result.model !== undefined && result.model !== options.model)) throw new Error();
+    const probabilities = answer.probabilities;
+    if (!probabilities || Array.isArray(probabilities) ||
+        Object.keys(probabilities).sort().join(',') !== Object.keys(options.criteria).sort().join(',')) throw new Error();
+    const values = Object.values(probabilities);
+    if (values.some(value => !Number.isFinite(value) || value < 0 || value > 1) ||
+        Math.abs(values.reduce((sum, value) => sum + value, 0) - 1) > 0.001 ||
+        probabilities[answer.choice] < Math.max(...values)) throw new Error();
     return {
       choice: answer.choice,
       confidence: answer.confidence,
